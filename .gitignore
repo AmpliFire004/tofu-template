@@ -1,0 +1,42 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+override.tf
+override.tf.json
+#*.tfvars
+*.tfvars.json
+# Ignore secrets files (explicit)
+#secrets.tfvars
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+env/
+.env
+.env.local
+
+# Logs and backups
+*.log
+*.bak
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Misc
+coverage/
+.pytest_cache/
+.cache/
+
+# Note: keep .terraform.lock.hcl in source control for reproducible provider versions
