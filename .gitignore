@@ -5,10 +5,10 @@
 crash.log
 override.tf
 override.tf.json
-#*.tfvars
+*.tfvars
 *.tfvars.json
 # Ignore secrets files (explicit)
-#secrets.tfvars
+secrets.tfvars
 
 # Editor and OS files
 .DS_Store
