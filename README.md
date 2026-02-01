@@ -90,9 +90,20 @@ Examples:
 PROJECT=pve just plan
 
 # Passing arg
-just apply project=pve
+just apply <project>
 
 # Create / delete
-just create-project project=myproject
-just delete-project project=myproject
+just create-project <project>
+just delete-project <project>
 ```
+
+## Secrets & Variables
+
+- Provider-level secrets (common to all projects): after cloning, ensure [_common/secrets.tfvars](_common/secrets.tfvars) exists locally. Copy the repo’s example (if present) or create the file, and fill provider authentication details (e.g., cloud/proxmox tokens, usernames, passwords). This file is ignored by Git and used by every project.
+- Per-project secrets: are created automatically by `create-project` and should be filled per project . These remain ignored by Git.
+- Non-secret variables: create or update per project with non-secret inputs for your modules.
+- Workflow with Just:
+  - `just plan <project>` — generates a plan file inside the project.
+  - `just apply <project>` — applies the previously generated plan; fails if no plan file exists.
+
+Tip: DO not manually edit [projects.mk](projects.mk) so commands like `just init <project>` work smoothly.

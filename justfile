@@ -47,9 +47,9 @@ output project:
 refresh project:
     proj="{{project}}"; vf="-var-file=../{{global_vars}} -var-file=../{{global_secrets}} -var-file=secrets.tfvars -var-file=variables.tfvars"; cd "$proj" && tofu apply -refresh-only ${vf}
 
-# Project Management
+# Create new project
 [group('project')]
-create-project project:
+create project:
     if [ -z "{{project}}" ]; then echo "Usage: just create-project project=<name>"; exit 1; fi
     if grep -qw "{{project}}" projects.mk; then echo "Project '{{project}}' already exists in projects.mk"; exit 1; fi
 
@@ -64,7 +64,7 @@ create-project project:
 
     echo "PROJECTS += {{project}}" >> projects.mk
     echo "Created project '{{project}}' and registered it"
-
+# Delete existing project
 [group('project')]
 delete project:
     [ -z "{{project}}" ] && echo "Usage: just delete <name>" && exit 1; if ! grep -qw "{{project}}" projects.mk; then echo "Project '{{project}}' not found in projects.mk"; exit 1; fi; read -p "Are you sure you want to delete project '{{project}}' and its files? (yes/no): " ans; if [ "$ans" != "yes" ]; then echo "Aborted."; exit 1; fi; echo "Removing project directory '{{project}}'..."; rm -rf "{{project}}"; echo "Unregistering project from projects.mk..."; sed -i '' '/PROJECTS += {{project}}/d' projects.mk || true; echo "Deleted project '{{project}}'"
