@@ -7,8 +7,8 @@ override.tf
 override.tf.json
 *.tfvars
 *.tfvars.json
-# Ignore secrets files (explicit)
-secrets.tfvars
+# Ignore secrets files (explicit, any folder)
+**/secrets.tfvars
 
 # Editor and OS files
 .DS_Store

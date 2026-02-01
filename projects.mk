@@ -1,1 +1,2 @@
 PROJECTS := pve
+PROJECTS += dhcp

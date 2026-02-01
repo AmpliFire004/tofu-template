@@ -59,3 +59,40 @@ Notes
 - `projects.mk` holds the `PROJECTS` list used by the Makefile.
 
 See `_common/README.md` and `pve/README.md` for project-specific notes.
+
+## Using Just
+
+You can use [justfile](justfile) as a friendly command runner equivalent to the Make targets.
+
+- General form:
+  - `PROJECT=<project> just <target>` — use `PROJECT` env var.
+  - `just <target> project=<project>` — pass the project as a recipe arg.
+
+Common recipes (from [justfile](justfile)):
+
+- `help` — show usage.
+- `init` — runs `tofu init` in the project dir.
+- `plan` — runs `tofu plan` with layered var files.
+- `apply` — runs `tofu apply` with layered var files.
+- `applya` — `apply` with `-auto-approve`.
+- `destroy` — runs `tofu destroy`.
+- `validate` — runs `tofu validate`.
+- `fmt` — runs `tofu fmt -recursive`.
+- `output` — shows `tofu output` for a project.
+- `refresh` — runs `tofu apply -refresh-only`.
+- `create-project` — scaffolds a new project and links `_common` files.
+- `delete-project` — deletes a project and unregisters it from [projects.mk](projects.mk).
+
+Examples:
+
+```sh
+# Using env var
+PROJECT=pve just plan
+
+# Passing arg
+just apply project=pve
+
+# Create / delete
+just create-project project=myproject
+just delete-project project=myproject
+```

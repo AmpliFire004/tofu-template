@@ -14,7 +14,7 @@ variable "pve_token_secret" {
   sensitive   = true
 }
 
-variable "ssh_private_key_path" {
+variable "pve_ssh_key_path" {
   description = "SSH for Proxmox"
   type = string
 }

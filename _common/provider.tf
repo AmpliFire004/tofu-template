@@ -14,7 +14,7 @@ provider "proxmox" {
   ssh {
     agent = false
     username = "root"
-    private_key = file("${var.ssh_private_key_path}")
+    private_key = file("${var.pve_ssh_key_path}")
 
   }
 }
