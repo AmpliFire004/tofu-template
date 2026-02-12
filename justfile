@@ -48,11 +48,10 @@ refresh project:
     proj="{{project}}"; vf="-var-file=../{{global_vars}} -var-file=../{{global_secrets}} -var-file=secrets.tfvars -var-file=variables.tfvars"; cd "$proj" && tofu apply -refresh-only ${vf}
 
 # Create new project
-[group('project')]
+[group('Project')]
 create project:
-    if [ -z "{{project}}" ]; then echo "Usage: just create-project project=<name>"; exit 1; fi
-    if grep -qw "{{project}}" projects.mk; then echo "Project '{{project}}' already exists in projects.mk"; exit 1; fi
-
+    # Check filesystem, not projects.mk
+    if [ -d "{{project}}" ]; then echo "Project '{{project}}' already exists at ./{{project}}"; exit 1; fi
     mkdir -p "{{project}}"
     ln -sfn ../_common/common.variables.tf "{{project}}/common.variables.tf"
     ln -sfn ../_common/provider.tf "{{project}}/provider.tf"
@@ -61,10 +60,21 @@ create project:
     touch "{{project}}/secrets.tfvars"
     touch "{{project}}/variables.tf"
     echo "# optional per-project vars" > "{{project}}/variables.tfvars"
-
-    echo "PROJECTS += {{project}}" >> projects.mk
-    echo "Created project '{{project}}' and registered it"
+    echo "Created project '{{project}}'"
 # Delete existing project
-[group('project')]
+[group('Project')]
 delete project:
-    [ -z "{{project}}" ] && echo "Usage: just delete <name>" && exit 1; if ! grep -qw "{{project}}" projects.mk; then echo "Project '{{project}}' not found in projects.mk"; exit 1; fi; read -p "Are you sure you want to delete project '{{project}}' and its files? (yes/no): " ans; if [ "$ans" != "yes" ]; then echo "Aborted."; exit 1; fi; echo "Removing project directory '{{project}}'..."; rm -rf "{{project}}"; echo "Unregistering project from projects.mk..."; sed -i '' '/PROJECTS += {{project}}/d' projects.mk || true; echo "Deleted project '{{project}}'"
+    [ -z "{{project}}" ] && echo "Usage: just delete <name>" && exit 1; if [ ! -d "{{project}}" ]; then echo "Project '{{project}}' not found at ./{{project}}"; exit 1; fi; read -p "Are you sure you want to delete project '{{project}}' and its files? (yes/no): " ans; if [ "$ans" != "yes" ]; then echo "Aborted."; exit 1; fi; echo "Removing project directory '{{project}}'..."; rm -rf "{{project}}"; echo "Deleted project '{{project}}'"
+# Create new module
+[group('Module')]
+create-module name:
+    if [ -d "_module/{{name}}" ]; then echo "Module '{{name}}' already exists at _module/{{name}}"; exit 1; fi
+    mkdir -p "_module/{{name}}"
+    cp "_module/_template/main.tf" "_module/{{name}}/main.tf"
+    cp "_module/_template/provider.tf" "_module/{{name}}/provider.tf"
+    cp "_module/_template/variables.tf" "_module/{{name}}/variables.tf"
+    echo "Created module at _module/{{name}} with main.tf, provider.tf, variables.tf"
+# Delete existing module
+[group('Module')]
+delete-module name:
+    dir="_module/{{name}}"; if [ ! -d "$dir" ]; then echo "Module '{{name}}' not found at $dir"; exit 1; fi; read -p "Are you sure you want to delete module '{{name}}' at $dir? (yes/no): " ans; if [ "$ans" != "yes" ]; then echo "Aborted."; exit 1; fi; rm -rf "$dir"; echo "Deleted module at $dir"

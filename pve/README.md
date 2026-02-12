@@ -1,23 +1,29 @@
 # PVE project
 
-This folder contains the `pve` project used as an example for managing
-Proxmox VE resources and for storing reusable snippets.
+Purpose
+
+- Manage reusable Proxmox VE snippets and small automations.
+- Serve as an example Terraform/Tofu project in this repository.
 
 Structure
 
 - `Snippets/` — small configuration snippets and automation examples.
-- `postclone.yml` — automation run after cloning a project (if used).
+- `postclone.yml` — optional automation run after cloning a project.
 
-Usage
+Usage (with Just)
 
-- Run a Makefile target for this project, for example:
+- Initialize, plan, and apply:
+  - `just init pve`
+  - `just plan pve`   (writes `pve/tfplan`)
+  - `just apply pve`  (requires `tfplan`; use `pve+` for auto-approve)
 
-  - `make pve plan`
-  - `make pve apply`
+- Other helpful recipes:
+  - `just destroy pve`
+  - `just validate pve`
+  - `just output pve`
 
-  Alternatively set the `PROJECT` variable and run a target:
+Notes
 
-  - `make PROJECT=pve apply`
-
-Snippets are intended as examples and utilities to bootstrap or configure
-resources; keep them modular and documented.
+- Ensure shared provider secrets exist at `_common/secrets.tfvars`.
+- Fill per-project secrets at `pve/secrets.tfvars` as needed.
+- Keep snippets modular, documented, and focused on PVE-specific tasks.
