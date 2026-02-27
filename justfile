@@ -1,5 +1,5 @@
 set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
-set qiet
+set quiet := true
 
 # Global shared var layers
 common_dir := "_common"
@@ -69,13 +69,15 @@ delete project:
 # Create new module
 [group('Module')]
 create-module name:
-    if [ -d "_module/{{name}}" ]; then echo "Module '{{name}}' already exists at _module/{{name}}"; exit 1; fi
-    mkdir -p "_module/{{name}}"
-    cp "_module/_template/main.tf" "_module/{{name}}/main.tf"
-    cp "_module/_template/provider.tf" "_module/{{name}}/provider.tf"
-    cp "_module/_template/variables.tf" "_module/{{name}}/variables.tf"
-    echo "Created module at _module/{{name}} with main.tf, provider.tf, variables.tf"
+    if [ -d "_modules/{{name}}" ]; then echo "Module '{{name}}' already exists at _modules/{{name}}"; exit 1; fi
+    mkdir -p "_modules/{{name}}"
+    touch "_modules/{{name}}/main.tf"
+    touch "_modules/{{name}}/variables.tf"
+    touch "_modules/{{name}}/outputs.tf"
+    touch "_modules/{{name}}/README.md"
+    echo "# Module '{{name}}'" > "_modules/{{name}}/README.md"
+    echo "Created module '{{name}}' at _modules/{{name}}"
 # Delete existing module
 [group('Module')]
 delete-module name:
-    dir="_module/{{name}}"; if [ ! -d "$dir" ]; then echo "Module '{{name}}' not found at $dir"; exit 1; fi; read -p "Are you sure you want to delete module '{{name}}' at $dir? (yes/no): " ans; if [ "$ans" != "yes" ]; then echo "Aborted."; exit 1; fi; rm -rf "$dir"; echo "Deleted module at $dir"
+    dir="_modules/{{name}}"; if [ ! -d "$dir" ]; then echo "Module '{{name}}' not found at $dir"; exit 1; fi; read -p "Are you sure you want to delete module '{{name}}' at $dir? (yes/no): " ans; if [ "$ans" != "yes" ]; then echo "Aborted."; exit 1; fi; rm -rf "$dir"; echo "Deleted module at $dir"
