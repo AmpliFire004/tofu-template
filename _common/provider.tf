@@ -4,6 +4,10 @@ terraform {
       source = "bpg/proxmox"
       version = "0.93.0"
     }
+    local = {
+      source  = "hashicorp/local"
+      version = ">= 2.4.0"
+    }
   }
 }
 
@@ -13,7 +17,7 @@ provider "proxmox" {
   api_token = "${var.pve_token_id}=${var.pve_token_secret}"
   ssh {
     agent = false
-    username = "root"
+    username = var.pve_ssh_user
     private_key = file("${var.pve_ssh_key_path}")
 
   }

@@ -1,4 +1,4 @@
-# tofu-template
+# Lab-tofu
 
 Template for managing Terraform/Tofu projects with shared configuration in `_common` and per-project folders (e.g., `pve`). The repository now uses [just](https://github.com/casey/just) instead of a Makefile, and does not use `projects.mk`.
 
@@ -69,4 +69,118 @@ The [justfile](justfile) defines these grouped recipes:
 - The workflow no longer uses `projects.mk`; recipes check the filesystem (presence of project folders) only.
 - The repository’s `.gitignore` ignores `**/secrets.tfvars` everywhere.
 
-See `_common/README.md` and `pve/README.md` for project-specific notes.
+## Quick Start
+
+1. **Clone and setup:**
+   ```bash
+   git clone <repository-url>
+   cd lab-tofu
+   ```
+
+2. **Configure secrets:**
+   ```bash
+   # Copy and edit secrets template
+   cp _common/secrets.tfvars.example _common/secrets.tfvars
+   # Edit with your Proxmox credentials
+   ```
+
+3. **Create a new project:**
+   ```bash
+   just project-create my-project
+   ```
+
+4. **Initialize and plan:**
+   ```bash
+   just init my-project
+   just plan my-project
+   just apply my-project
+   ```
+
+## Available Commands
+
+The `justfile` provides convenient commands for managing projects:
+
+### Project Management
+- `just project-create <name>` - Create a new project directory with symlinks
+- `just project-delete <name>` - Remove a project directory
+
+### Module Management
+- `just module-create <name>` - Create a new reusable module template
+- `just module-delete <name>` - Remove a module
+
+### Terraform Operations
+- `just init <project>` - Initialize Terraform in a project
+- `just plan <project>` - Create a plan file
+- `just apply <project>` - Apply the plan (use `<project>+` for auto-approve)
+- `just destroy <project>` - Destroy all resources in a project
+- `just recreate <project>` - Destroy then reapply all resources with auto-approve
+- `just validate <project>` - Validate configuration
+- `just output <project>` - Show outputs
+- `just refresh <project>` - Refresh state
+
+### Utilities
+- `just fmt` - Format all Terraform files
+
+## Modules
+
+### vm-linux
+Creates Linux virtual machines on Proxmox by cloning from a template.
+
+**Key Features:**
+- Automated VM provisioning
+- SSH key injection
+- Ansible inventory generation
+- Network configuration
+- Disk and resource customization
+
+See [_modules/vm-linux/README.md](_modules/vm-linux/README.md) for detailed usage.
+
+### vm-windows
+Creates Windows virtual machines on Proxmox by cloning from a template.
+
+**Key Features:**
+- Automated Windows VM provisioning
+- Network configuration
+- Disk and resource customization
+- OVMF BIOS with VirtIO hardware
+- Ansible inventory generation
+
+See [_modules/vm-windows/README.md](_modules/vm-windows/README.md) for detailed usage.
+
+## Configuration
+
+### Shared Configuration (_common/)
+All projects share common configuration files that are automatically symlinked:
+
+- **Provider config**: Proxmox API connection and authentication
+- **Global variables**: SSH keys, default usernames
+- **Secrets**: API tokens, passwords (not committed to git)
+- **Inventory generation**: Automatic Ansible inventory creation
+
+See [_common/README.md](_common/README.md) for details.
+
+### Project Structure
+Each project directory contains:
+- `main.tf` - Main Terraform configuration
+- `variables.tf` - Project-specific variables
+- `variables.tfvars` - Variable values
+- `secrets.tfvars` - Project secrets (symlinked)
+- `inventory.tf` - Ansible inventory generation (symlinked from _common/)
+- `terraform.tfstate*` - State files
+- Symlinks to other `_common/` files
+
+The `inventory.tf` file automatically generates Ansible inventory files based on VM module outputs, enabling seamless integration with Ansible automation.
+
+## Security
+
+- Never commit `secrets.tfvars` files
+- Use environment-specific secret management
+- Rotate API tokens regularly
+- Review Terraform plans before applying
+
+## Contributing
+
+1. Use modules for reusable components
+2. Follow the established project structure
+3. Test changes in a dedicated project before applying to production
+4. Update documentation for any new features

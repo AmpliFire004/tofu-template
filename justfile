@@ -1,4 +1,5 @@
 set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
+set qiet
 
 # Global shared var layers
 common_dir := "_common"
@@ -12,12 +13,12 @@ plan_file := "tfplan"
 init project:
     proj="{{project}}"; cd "$proj" && tofu init
 
-# Plan to file (requires planfile)
+# Plan to file 
 [group('tofu')]
 plan project:
     proj="{{project}}"; pf="{{plan_file}}"; vf="-var-file=../{{global_vars}} -var-file=../{{global_secrets}} -var-file=secrets.tfvars -var-file=variables.tfvars"; cd "$proj" && tofu plan ${vf} -out="$pf"
 
-# Apply plan file (requires existing planfile). Use project+ for auto-approve.
+# Apply plan file.
 [group('tofu')]
 apply project:
     proj="{{project}}"; auto=""; [[ "$proj" == *+ ]] && auto="-auto-approve" && proj="${proj%+}"; pf="{{plan_file}}"; [ -f "$proj/$pf" ] || { echo "Plan file '$proj/$pf' not found. Run: just plan $proj"; exit 1; }; cd "$proj" && tofu apply $auto "$pf"

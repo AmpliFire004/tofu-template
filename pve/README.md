@@ -10,7 +10,7 @@ Structure
 - `Snippets/` — small configuration snippets and automation examples.
 - `postclone.yml` — optional automation run after cloning a project.
 
-Usage (with Just)
+Usage
 
 - Initialize, plan, and apply:
   - `just init pve`

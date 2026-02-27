@@ -7,8 +7,15 @@ override.tf
 override.tf.json
 *.tfvars
 *.tfvars.json
+<<<<<<< HEAD
 # Ignore secrets files (explicit, any folder)
 #**/secrets.tfvars
+=======
+tfplan
+# Ignore secrets files (explicit, any folder)
+**/secrets.tfvars
+**/tfplan
+>>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)
 
 # Editor and OS files
 .DS_Store

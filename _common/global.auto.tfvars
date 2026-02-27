@@ -1,2 +1,2 @@
-ssh_keys    = [""]
-vm_username = ""
+ssh_keys    = ["/home/peder/.ssh/Lab-Key.pub"]
+vm_username = "eostest"
