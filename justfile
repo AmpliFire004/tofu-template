@@ -23,7 +23,7 @@ init project:
     proj="{{project}}"; cd "{{root_dir}}/$proj" && tofu init
 >>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)
 
-# Plan to file (requires planfile)
+# Plan to file 
 [group('tofu')]
 plan project:
 <<<<<<< HEAD
@@ -32,7 +32,7 @@ plan project:
     proj="{{project}}"; pf="{{plan_file}}"; vf="-var-file=../{{global_vars}} -var-file=../{{global_secrets}} -var-file=secrets.tfvars -var-file=variables.tfvars"; cd "{{root_dir}}/$proj" && tofu plan ${vf} -out="$pf"
 >>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)
 
-# Apply plan file (requires existing planfile). Use project+ for auto-approve.
+# Apply plan file.
 [group('tofu')]
 apply project:
 <<<<<<< HEAD
