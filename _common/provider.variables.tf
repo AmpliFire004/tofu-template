@@ -13,11 +13,11 @@ variable "pve_token_secret" {
   type        = string
   sensitive   = true
 }
-
-<<<<<<< HEAD
+variable "pve_ssh_user" {
+  description = "SSH username for Proxmox."
+  type        = string
+}
 variable "pve_ssh_key_path" {
   description = "SSH for Proxmox"
   type = string
 }
-=======
->>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)

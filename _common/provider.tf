@@ -17,12 +17,8 @@ provider "proxmox" {
   api_token = "${var.pve_token_id}=${var.pve_token_secret}"
   ssh {
     agent = false
-    username = "root"
-<<<<<<< HEAD
+    username = var.pve_ssh_user
     private_key = file("${var.pve_ssh_key_path}")
-=======
-    private_key = file("/home/peder/.ssh/pve")
->>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)
 
   }
 }
