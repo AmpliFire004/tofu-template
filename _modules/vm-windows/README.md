@@ -43,8 +43,6 @@ This Terraform module creates a Windows virtual machine on Proxmox by cloning fr
 | ansible_group | Groups this host should belong to in Ansible inventory | `string` | `"vm"` | no |
 | ansible_vars | Extra hostvars for Ansible inventory | `map(any)` | `{}` | no |
 | ansible_hostname | Inventory hostname (defaults to vm_name) | `string` | `null` | no |
-| write_inventory_file | If true, write an Ansible inventory YAML fragment file | `bool` | `false` | no |
-| inventory_file_path | File path to write the Ansible inventory fragment (required if write_inventory_file=true) | `string` | `null` | no |
 | domain | DNS domain name | `string` | n/a | yes |
 
 ## Outputs
@@ -77,6 +75,4 @@ module "windows_vm" {
 - The VM is cloned from template ID 9001 by default.
 - Initialization sets static IP if provided, otherwise DHCP.
 - No SSH keys are configured; use password authentication.
-- The VM uses OVMF BIOS and VirtIO hardware.
-- If `write_inventory_file` is set to `true`, an Ansible inventory YAML fragment file will be created at the specified `inventory_file_path`.</content>
-<parameter name="filePath">/home/peder/adm/Infra/Lab-tofu/modules/vm-windows/README.md
+- The VM uses OVMF BIOS and VirtIO hardware. 

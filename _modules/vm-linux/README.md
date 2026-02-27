@@ -45,8 +45,6 @@ This Terraform module creates a Linux virtual machine on Proxmox by cloning from
 | ansible_groups | Groups this host should belong to in Ansible inventory for grouping | `list(string)` | `[]` | no |
 | ansible_vars | Extra hostvars for Ansible inventory | `map(any)` | `{}` | no |
 | ansible_hostname | Inventory hostname (defaults to vm_name) | `string` | `null` | no |
-| write_inventory_file | If true, write an Ansible inventory YAML fragment file | `bool` | `false` | no |
-| inventory_file_path | File path to write the Ansible inventory fragment (required if write_inventory_file=true) | `string` | `null` | no |
 | domain | DNS domain name to create FQDN and set search domain | `string` | n/a | yes |
 
 ## Outputs
@@ -81,5 +79,3 @@ module "linux_vm" {
 - Initialization includes vendor data file for post-clone setup.
 - SSH keys are added for passwordless login.
 - The VM uses OVMF BIOS and VirtIO hardware.
-- If `write_inventory_file` is set to `true`, an Ansible inventory YAML fragment file will be created at the specified `inventory_file_path`.</content>
-<parameter name="filePath">/home/peder/adm/Infra/Lab-tofu/modules/vm-linux/README.md

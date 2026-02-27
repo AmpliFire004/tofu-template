@@ -157,17 +157,6 @@ variable "ansible_hostname" {
   type        = string
   default     = null
 }
-variable "write_inventory_file" {
-  description = "If true, write an inventory YAML fragment file"
-  type        = bool
-  default     = false
-}
-
-variable "inventory_file_path" {
-  description = "Where to write the inventory fragment (only if write_inventory_file=true)"
-  type        = string
-  default     = null
-}
 variable "domain" {
   description = "DNS domain name"
   type        = string

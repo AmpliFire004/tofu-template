@@ -1,6 +1,5 @@
 # Lab-tofu
 
-<<<<<<< HEAD
 Template for managing Terraform/Tofu projects with shared configuration in `_common` and per-project folders (e.g., `pve`). The repository now uses [just](https://github.com/casey/just) instead of a Makefile, and does not use `projects.mk`.
 
 ## Overview
@@ -69,40 +68,6 @@ The [justfile](justfile) defines these grouped recipes:
 - `apply` requires a plan file named `tfplan` in the project directory; run `just plan <project>` first.
 - The workflow no longer uses `projects.mk`; recipes check the filesystem (presence of project folders) only.
 - The repository’s `.gitignore` ignores `**/secrets.tfvars` everywhere.
-=======
-A Terraform/OpenTofu workspace for managing Proxmox-based lab infrastructure. This project provides a modular approach to provisioning and managing virtual machines and related services in a Proxmox environment.
-
-## Project Structure
-
-```
-lab-tofu/
-├── _common/           # Shared configuration files
-│   ├── common.variables.tf
-│   ├── global.auto.tfvars
-│   ├── inventory.tf
-│   ├── provider.tf
-│   ├── provider.variables.tf
-│   ├── secrets.tfvars
-│   └── README.md
-├── _modules/          # Reusable Terraform modules
-│   ├── vm-linux/      # Linux VM creation module
-│   └── vm-windows/    # Windows VM creation module
-├── guacomole/         # Guacamole server project
-├── lab-ad/           # Active Directory lab project
-├── miscweb/          # Miscellaneous web services
-├── pve/              # Proxmox VE management
-├── smtp/             # SMTP server project
-├── test/             # Test environment
-├── justfile          # Automation recipes
-└── README.md         # This file
-```
-
-## Prerequisites
-
-- [OpenTofu](https://opentofu.org/) >= 1.0 or Terraform >= 1.0
-- Access to a Proxmox VE cluster
-- SSH access to Proxmox nodes
->>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)
 
 ## Quick Start
 
