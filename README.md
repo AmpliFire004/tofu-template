@@ -16,15 +16,19 @@ Template for managing Terraform/Tofu projects with shared configuration in `_com
 ## Quick Start
 
 ```sh
-# 1) Create provider-level secrets shared by all projects
-#    If an example exists, copy it; otherwise create the file.
-cp _common/secrets.tfvars.example _common/secrets.tfvars 2>/dev/null || :
-#    Edit _common/secrets.tfvars and fill provider credentials.
+# 1) One-time repository setup
+just setup
+#    This removes existing git history, initializes fresh local git metadata,
+#    and prepares
+#    _common/secrets.tfvars from the example file when available.
+#    It also prompts for a Git remote URL and sets it as origin.
 
-# 2) Create a new project
+# 2) Edit _common/secrets.tfvars and fill provider credentials.
+
+# 3) Create a new project
 just create my-project
 
-# 3) Initialize, plan, and apply
+# 4) Initialize, plan, and apply
 just init my-project
 just plan my-project        # writes my-project/tfplan
 just apply my-project       # requires the plan file
@@ -36,6 +40,8 @@ just apply my-project+      # '+' enables -auto-approve
 ## Commands
 
 The [justfile](justfile) defines these grouped recipes:
+
+- [Setup] `setup`: one-time local bootstrap; removes existing `.git` history, runs `git init`, moves `_common/secrets.tfvars.example` to `_common/secrets.tfvars` when available, then prompts for a Git remote URL to set as `origin` (or skip).
 
 - [tofu] `init project`: initialize a project.
 - [tofu] `plan project`: create a plan file `tfplan` with layered var files.

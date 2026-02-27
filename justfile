@@ -81,3 +81,18 @@ create-module name:
 [group('Module')]
 delete-module name:
     dir="_modules/{{name}}"; if [ ! -d "$dir" ]; then echo "Module '{{name}}' not found at $dir"; exit 1; fi; read -p "Are you sure you want to delete module '{{name}}' at $dir? (yes/no): " ans; if [ "$ans" != "yes" ]; then echo "Aborted."; exit 1; fi; rm -rf "$dir"; echo "Deleted module at $dir"
+
+# Initial setup of this repository, including git and secrets.tfvars
+[group('Setup')]
+setup:
+    rm -rf .git
+    git init
+    mv _common/secrets.tfvars.example _common/secrets.tfvars 2>/dev/null || true
+    read -r -p "Enter git remote URL for origin (leave empty to skip): " remote_url
+    if [ -n "$remote_url" ]; then
+        git remote add origin "$remote_url"
+        echo "Set git remote 'origin' to $remote_url"
+    else
+        echo "Skipped setting git remote 'origin'."
+    fi
+    echo "Removed git history, initialized a fresh repository, and prepared secrets.tfvars under _common."
