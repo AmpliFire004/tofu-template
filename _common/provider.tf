@@ -4,6 +4,10 @@ terraform {
       source = "bpg/proxmox"
       version = "0.93.0"
     }
+    local = {
+      source  = "hashicorp/local"
+      version = ">= 2.4.0"
+    }
   }
 }
 
@@ -14,7 +18,11 @@ provider "proxmox" {
   ssh {
     agent = false
     username = "root"
+<<<<<<< HEAD
     private_key = file("${var.pve_ssh_key_path}")
+=======
+    private_key = file("/home/peder/.ssh/pve")
+>>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)
 
   }
 }

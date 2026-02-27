@@ -14,7 +14,10 @@ variable "pve_token_secret" {
   sensitive   = true
 }
 
+<<<<<<< HEAD
 variable "pve_ssh_key_path" {
   description = "SSH for Proxmox"
   type = string
 }
+=======
+>>>>>>> 3f5f32d (Update template with latest Lab-tofu changes)

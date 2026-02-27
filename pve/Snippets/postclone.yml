@@ -2,6 +2,7 @@
 package_update: true
 packages:
   - qemu-guest-agent
+  - dnsutils
 
 runcmd:
   - systemctl enable --now qemu-guest-agent

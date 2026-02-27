@@ -1,0 +1,2 @@
+PROJECTS := pve
+PROJECTS += Test
